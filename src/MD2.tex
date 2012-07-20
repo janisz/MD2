@@ -22,7 +22,7 @@
 \newtheorem{df}{Definicja}
 
 \usepackage[pdfauthor={Janisz},%
-pdftitle={AM2},%
+pdftitle={MD2},%
 pagebackref=true,%
 pdftex]{hyperref}
 \hypersetup{colorlinks=false}
@@ -30,25 +30,102 @@ pdftex]{hyperref}
 
 \pagestyle{plain}
 \begin{document}
-\title{ Analiza matematyczna 2}
-\author{\vspace{-5ex}}
+\title{ Matematyka Dyskretna 2}
+\author{Tomasz Janiszewski}
 \date{\today}
 \maketitle
+
 \tableofcontents
 
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \begin{center}
 \leavevmode
-
 \includegraphics[width=1 in]{../img/by-sa.png}
 \end{center}
 \label{fig:cc}
 %insert a link to the licence and its description below
 \scriptsize{Ten utwór jest dostępny na licencji  \href{http://creativecommons.org/licenses/by-sa/3.0/pl/}{Creative Commons Uznanie autorstwa-Na tych samych warunkach 3.0 Polska.}}
 
-
 \pagebreak
+%1. Wyklad
+%	4.10.2011
+\section{Ścieżka i cykl Eulera\footnote{Leonhard Euler (ur. 15 kwietnia 1707 w Bazylei, zm. 18 września 1783 w Petersburgu) – szwajcarski matematyk i fizyk; był pionierem w wielu obszarach obu tych nauk. Większą część życia spędził w Rosji i Prusach. Jest uważany za jednego z najbardziej produktywnych matematyków w historii}}
+%TODO Dodać opis problemu
+\begin{df}
+Ścieżką Eulera w grafie $G$ nazywamy ścieżkę $v_0e_1v_1e_2 \dots e_nv_n$ taką że każda krawędź występuje na niej tylko raz
+\end{df}
+\begin{df}[Obwód Eulera]~\\
+Jeżeli w danej $v_0 = v_n$ to ścieżkę nazywamy ścieżką zamkniętą lub obwodem Eulera
+\end{df}
+\begin{df}[Cykl Eulera]~\\
+Jeżeli wierzchołki  w obwodem Eulera się nie powtarzają to taki obwód nazywamy cyklem Eulera.
+\end{df}
 
+\begin{lemat}\label{lemat:1}
+Jeżeli $G$ jest grafem takim że $\delta (G) \geqslant 2$ to $G$ posiada cykl
+\begin{proof}
+Rozważmy najdłuższą drogę (wierzchołki się nie powtarzają) $v_0e_1v_1 \dots e_kv_k$ oraz niech $\deg v_0 \geqslant \delta(G) \geqslant 2$. Niech sąsiad $v_0 \neq v_1$ nazywa się $a$. $a \not\in \{v_2, \dots, v_k\}$ bo gdyby należał do ścieżki to $av_0v_1 \dots v_k$ byłaby dłuższa niż $v_0 \dots v_k$ wbrew założeniu. Czyli $a\in \{v_2, \dots, v_k\}$ czyli $a = v_i$.\\ Mamy cykl! 
+%TODO Dodać ilustrację
+\end{proof}
+\end{lemat}
+
+\begin{tw}[Eulera]~\\
+Graf spójny ma obwód Eulera $\Leftrightarrow$ wszystkie wierzchołki mają parzyste stopnie
+\begin{proof}
+$\Rightarrow$\\
+Przemierzając obwód Eulera wchodzimy i wychodzimy do każdego wierzchołka tyle samo razy za każdym razem inną krawędzią. Ponieważ każda krawędź leży w obwodzie Eulera to każdy wierzchołek jest parzystego stopnia
+\end{proof}
+\begin{proof}
+$\Leftarrow$ \emph{nie wprost}\\
+Przypuśćmy że twierdzenie nie jest prawdziwe. Ze wszystkich kontrprzykładów weźmy ten który ma najmniej krawędzi, nazwijmy go $G$. To znaczy $G$ jest spójny, wszystkie wierzchołki ma parzystego stopnia a nie ma obwodu Eulera. To znaczy że $|G| > 1$\footnote{graf o jednym wierzchołku ma obwód Eulera} oraz żaden wierzchołek nie jest stopnia 0 lub 1, każdy jest co stopnia co najmniej 2. Czyli z lematu \ref{lemat:1} $G$ ma cykl, a cykl $\subset$ obwód.
+Weźmy najdłuższy obwód w $G$ i nazwijmy $C$. $E(C) \neq E(G)$ bo w przeciwnym przypadku $C$ byłby obwodem Eulera w $G$.
+\\Rozważmy $G-E(C)$ zawiera jakieś krawędzie. Zastanówmy się nad parzystością stopni $G-E(C)$. W $G-E(C)$ każdy wierzchołek jest parzystego stopnia. czyli każda składowa o nieparzystym zbiorze krawędzi\footnote{$G-E(C)$ nie musi być grafem spójnym} $G-E(C)$ nie jest kontrprzykładem ($G$ był najmniejszy) zatem ma obwód Eulera $C'$.\\
+Istnieje wierzchołek $x\in V(C) \cap V(C')$ bo w przeciwnym przypadku $G$ nie byłby spójny.\\
+Obwód $xCxC'x$ jest dłuższy niż $C$, a $G$ maił być najdłuższy (o większej liczbie krawędzi). Sprzeczność z definicją $C$.
+\end{proof}
+%TODO Sprawdzić ten dowód
+\end{tw}
+
+\subsection{Algorytm znajdowania obwodu Eulera w grafie}
+\begin{lemat}
+Jeżeli graf $G$ jest spójny i ma wszystkie wierzchołki parzystego stopnia, to nie ma mostu
+\begin{proof}
+Przypuśćmy przeciwnie.\\
+Niech $e = xy$ będzie mostem w $G$. $G-e$ ma dokładnie dwie składowe $G_x, G_y$. W $G_x$ wszystkie wierzchołki oprócz $X$ są parzystego stopnia. Sprzeczność z zasadą, że suma stopni w grafie jest parzysta (suma stopni jest dwa razy większa od liczby krawędzi)
+\end{proof}
+\end{lemat}
+
+\subsubsection{Algorytm Fleury'ego}
+\begin{enumerate}
+\item Wybieram wierzchołek startowy $v_0, ~ w = v_0$
+\item Załóżmy, że skonstruowaliśmy już ścieżkę $w=v_0e_1v_1 \dots e_iv_i$ wybieram krawędź $e_{i+1}$ taką że
+	\begin{enumerate}
+		\item $e_{i+1} \in E(G) \smallsetminus \{e_1, \dots, e_i\}$
+		\item $e_{i+1}$ jest incydentna z $v_i$
+		\item o ile to możliwe $e_{i+1}$ nie jest mostem w $G_i = G - \{e_1, \dots, e_i\}$\label{point:1}
+	\end{enumerate}
+\item STOP kiedy krok 2 nie może się wykonać
+%TODO Dodać przykład
+	\end{enumerate}
+\end{enumerate}
+
+\begin{tw}
+Jeżeli $G$ ma obwód Eulera to algorytm Fleury'ego znajdzie taki obwód
+\begin{proof}
+$w_n = v_0e_1v_1 \dots e_nv_n$ ścieżka skonstruowana przez algorytm Fleury'ego. $w_n$ nie zawiera żadnej krawędzi więcej niż raz. W momencie zatrzymania się algorytmu stopnień $v_n$ w grafie $G-\{e_1, \dots, e_n\}$ jest równy $0$.\\
+Jeżeli $v_n = v_0$ to ma nieparzysty stopień, a ma mieć $0$. Czyli $v_n = v_0$\footnote{gdyby tak nie było oznaczałoby to  że wyszliśmy o jeden raz więcej niż weszliśmy} Czyli $\deg_{G-\{e_1, \dots, e_n\}}v_n$ jest nieparzysty. Sprzeczność bo zero jest parzyste}.\\
+Wystarczy pokazać, że $E(w_n)=E(G)$.\\
+Przypuśćmy, że nie jest. $G_n = G-E(w_n)$ ma niepusty zbiór krawędzi.
+\\ Niech $S$ - zbiór wierzchołków dodatniego stopnia w $G_n$.
+\\ Niech $\overline{S}$ - zbiór wszystkich wierzchołków zerowego stopnia. $\overline{S}=V(G)-S$
+\\ Niech $m$ będzie największym indeksem takim że $V_m \in S$ a $V_{m+1} = e_{m+1}$
+%TODO Dodać obrazek
+\\ Czyli krawędź $e_{m+1}$ jest mostem w $G_m = G - \{e_1, \dots, e_m\}$ bo jest jedyną krawędzią między $S$ i $\overline{S}$. Z punkty \ref{point:1} wynika że wszystkie krawędzie w $G_m$ o końcu $v_m$ są mostami.
+\\ Rozważmy $G_m[S]$\footnote{graf indukowany}, w którym wszystkie wierzchołki są parzystego stopnia a $v_m$ jest końcem mostu. Sprzeczność z lematem.
+%TODO Porównać z http://pl.wikipedia.org/wiki/Algorytm_Fleury%27ego#Dow.C3.B3d_poprawno.C5.9Bci_algorytmu
+\end{proof}
+
+\end{tw}
 
 
 \end{document}
