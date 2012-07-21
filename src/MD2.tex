@@ -1,5 +1,5 @@
 \documentclass[12pt,a4paper]{article}
-\usepackage[polish]{babel}
+
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[a4paper]{geometry}
@@ -12,14 +12,14 @@
 \usepackage{amsmath} %pakiet potrzebny do \eqref
 \usepackage{amssymb} %pakiet potrzebny do \blacksquare i \mathbb{•}
 
-
 \usepackage{graphicx}
-
+\usepackage[polish]{babel}	%babel musi być po ams inaczej generuje błedy https://groups.google.com/d/msg/pl.comp.dtp.tex.gust/AfdVxQVu_DI/Fego6Pxz3HMJ
 \newtheorem{lemat}{Lemat}
 \newtheorem{tw}{Twierdzenie}
 \newtheorem{przyklad}{Przykład}
 \theoremstyle{definition}
 \newtheorem{df}{Definicja}
+\newtheorem{wniosek}{Wniosek}
 
 \usepackage[pdfauthor={Janisz},%
 pdftitle={MD2},%
@@ -47,9 +47,11 @@ pdftex]{hyperref}
 \scriptsize{Ten utwór jest dostępny na licencji  \href{http://creativecommons.org/licenses/by-sa/3.0/pl/}{Creative Commons Uznanie autorstwa-Na tych samych warunkach 3.0 Polska.}}
 
 \pagebreak
-%1. Wyklad
-%	4.10.2011
-\section{Ścieżka i cykl Eulera\footnote{Leonhard Euler (ur. 15 kwietnia 1707 w Bazylei, zm. 18 września 1783 w Petersburgu) – szwajcarski matematyk i fizyk; był pionierem w wielu obszarach obu tych nauk. Większą część życia spędził w Rosji i Prusach. Jest uważany za jednego z najbardziej produktywnych matematyków w historii}}
+%---------------%
+%1. Wyklad		%
+%	4.10.2011	%
+%---------------%
+\section{Ścieżka i cykl \href{http://pl.wikipedia.org/wiki/Leonhard_Euler}{Eulera}}
 %TODO Dodać opis problemu
 \begin{df}
 Ścieżką Eulera w grafie $G$ nazywamy ścieżkę $v_0e_1v_1e_2 \dots e_nv_n$ taką że każda krawędź występuje na niej tylko raz
@@ -69,7 +71,7 @@ Rozważmy najdłuższą drogę (wierzchołki się nie powtarzają) $v_0e_1v_1 \d
 \end{proof}
 \end{lemat}
 
-\begin{tw}[Eulera]~\\
+\begin{tw}[Eulera]\label{tw:Eulera}~\\
 Graf spójny ma obwód Eulera $\Leftrightarrow$ wszystkie wierzchołki mają parzyste stopnie
 \begin{proof}
 $\Rightarrow$\\
@@ -87,7 +89,7 @@ Obwód $xCxC'x$ jest dłuższy niż $C$, a $G$ maił być najdłuższy (o więks
 \end{tw}
 
 \subsection{Algorytm znajdowania obwodu Eulera w grafie}
-\begin{lemat}
+\begin{lemat}\label{lemat:2}
 Jeżeli graf $G$ jest spójny i ma wszystkie wierzchołki parzystego stopnia, to nie ma mostu
 \begin{proof}
 Przypuśćmy przeciwnie.\\
@@ -107,13 +109,12 @@ Niech $e = xy$ będzie mostem w $G$. $G-e$ ma dokładnie dwie składowe $G_x, G_
 \item STOP kiedy krok 2 nie może się wykonać
 %TODO Dodać przykład
 	\end{enumerate}
-\end{enumerate}
 
 \begin{tw}
 Jeżeli $G$ ma obwód Eulera to algorytm Fleury'ego znajdzie taki obwód
 \begin{proof}
 $w_n = v_0e_1v_1 \dots e_nv_n$ ścieżka skonstruowana przez algorytm Fleury'ego. $w_n$ nie zawiera żadnej krawędzi więcej niż raz. W momencie zatrzymania się algorytmu stopnień $v_n$ w grafie $G-\{e_1, \dots, e_n\}$ jest równy $0$.\\
-Jeżeli $v_n = v_0$ to ma nieparzysty stopień, a ma mieć $0$. Czyli $v_n = v_0$\footnote{gdyby tak nie było oznaczałoby to  że wyszliśmy o jeden raz więcej niż weszliśmy} Czyli $\deg_{G-\{e_1, \dots, e_n\}}v_n$ jest nieparzysty. Sprzeczność bo zero jest parzyste}.\\
+Jeżeli $v_n = v_0$ to ma nieparzysty stopień, a ma mieć $0$. Czyli $v_n = v_0$\footnote{gdyby tak nie było oznaczałoby to  że wyszliśmy o jeden raz więcej niż weszliśmy} Czyli $\deg_{G-\{e_1, \dots, e_n\}}v_n$ jest nieparzysty. Sprzeczność bo zero jest parzyste.\\
 Wystarczy pokazać, że $E(w_n)=E(G)$.\\
 Przypuśćmy, że nie jest. $G_n = G-E(w_n)$ ma niepusty zbiór krawędzi.
 \\ Niech $S$ - zbiór wierzchołków dodatniego stopnia w $G_n$.
@@ -121,11 +122,107 @@ Przypuśćmy, że nie jest. $G_n = G-E(w_n)$ ma niepusty zbiór krawędzi.
 \\ Niech $m$ będzie największym indeksem takim że $V_m \in S$ a $V_{m+1} = e_{m+1}$
 %TODO Dodać obrazek
 \\ Czyli krawędź $e_{m+1}$ jest mostem w $G_m = G - \{e_1, \dots, e_m\}$ bo jest jedyną krawędzią między $S$ i $\overline{S}$. Z punkty \ref{point:1} wynika że wszystkie krawędzie w $G_m$ o końcu $v_m$ są mostami.
-\\ Rozważmy $G_m[S]$\footnote{graf indukowany}, w którym wszystkie wierzchołki są parzystego stopnia a $v_m$ jest końcem mostu. Sprzeczność z lematem.
+\\ Rozważmy $G_m[S]$, w którym wszystkie wierzchołki są parzystego stopnia a $v_m$ jest końcem mostu. Sprzeczność z lematem \ref{lemat:2}.
 %TODO Porównać z http://pl.wikipedia.org/wiki/Algorytm_Fleury%27ego#Dow.C3.B3d_poprawno.C5.9Bci_algorytmu
 \end{proof}
-
 \end{tw}
 
+%---------------%
+%2. Wyklad		%
+%	11.10.2011	%
+%---------------%
+\subsection{Wniosek z twierdzenia Eulera}
+\begin{tw}
+Spójny multigraf $G$ ma ścieżkę Eulera\footnote{nie musi się kończyć tam gdzie się zaczęła} $\Leftrightarrow~ G$ ma co najwyżej 2 wierzchołki nieparzystego stopnia.
+\begin{proof}
+$\Rightarrow$\\
+Idąc ścieżką Eulera wchodzimy do każdego wierzchołka być może z wyjątkiem pierwszego i ostatniego tyle samo razy co wychodzimy, zatem każdy wierzchołek (może z wyjątkiem pierwszego i ostatniego) ma parzysty stopień.
+\end{proof} 
+\begin{proof}
+$\Leftarrow$
+	\begin{enumerate}
+		\item Jeśli jest 0 wierzchołków nieparzystego stopnia to z twierdzenia \hyperref[tw:Eulera]{Eulera} istnieje obwód Eulera, który jest ścieżką.
+		\item Nie może być dokładnie jeden wierzchołek nieparzystego stopnia, bo suma stopni musi być parzysta.
+		\item Jeżeli są 2 takie wierzchołki połączmy je krawędzią. Otrzymujemy multigraf o wszystkich wierzchołkach parzystego stopnia. Z twierdzenia \hyperref[tw:Eulera]{Eulera} ma on obwód Eulera. Usuwając uprzednio dodaną krawędź otrzymujemy ścieżkę  Eulera.
+	\end{enumerate}
+\end{proof}
+\end{tw}
 
+\subsection{Problem chińskiego listonosza}
+Listonosz musi dostarczyć listy do adresatów, czyli przejść przez każdą ulicę w mieście. Jak ma przejść aby pokonać najkrótszą trasę?\\
+%TODO Dodać rysunek
+Dane: Spójny multigraf $G$, funkcja wag krawędzi (długość ulic) $w : E(G) \to [0,\infty)$\\
+Problem: Znaleźć trasę, czyli ciąg wierzchołków taki że:
+\begin{enumerate}
+	\item każda krawędź występuje w ciągu
+	\item $\forall i \quad e_i = v_{i-1}v_i$
+	\item $\sum\limits_{i=1}^{p} w(e_i)$ była minimalna 
+\end{enumerate}
+Szkic rozwiązania
+\begin{enumerate}
+	\item Połączy krawędziami wierzchołki nieparzystych stopni po dwa tak aby suma wag u nowych krawędzi była jak najmniejsza\footnote{algorytm jest skomplikowany}
+	\item Znajdźmy obwód Eulera w nowym multigrafie
+\end{enumerate}
+%TODO Poprawić formatowanie problemów
+
+\section{Cykle i drogi \href{http://pl.wikipedia.org/wiki/William_Rowan_Hamilton}{Hamiltona}}
+
+\begin{df}[Droga Hamiltona]~\\
+Drogę która zawiera wszystkie wierzchołki grafu $G$ nazywamy drogą Hamiltona
+\end{df}
+
+\begin{df}[Cykl Hamiltona]~\\
+Cykl który zawiera wszystkie wierzchołki grafu $G$ nazywamy cyklem Hamiltona
+\end{df}
+
+
+%TODO Dodać przykłady
+
+\begin{tw}
+Jeżeli $G$ ma cykl Hamiltona to dla każdego $S\subset V(G) \quad \omega(G-S) \leqslant |S|$
+\begin{proof}
+Niech $C$ - cykl Hamiltona w $G$. Zauważmy, że $\omega(C-S) \leqslant |S|$ \\
+$\omega(G-S) \leqslant \omega(C-S)$
+\end{proof}
+%TODO Dodać przykłady (szczególnie graf Petersena)
+\end{tw}
+
+\begin{tw}[\href{http://pl.wikipedia.org/wiki/Gabriel_Andrew_Dirac}{Diraca} (1952)]
+Jeżeli $G$ jest grafem takim że $G\geqslant 3, ~~ \delta(G)\geqslant \frac{|G|}{2}$ to $G$ ma cykl Hamiltona
+\begin{proof}\emph{nie wprost}\\
+Niech $G$ będzie kontrprzykładem do twierdzenia o maksymalnym zbiorze krawędzi, czyli grafem takim że ma co najmniej 3 wierzchołki $|G|\geqslant 3, ~~ \delta(G) \geqslant \frac{|G|}{2}$ nie ma cyklu Hamiltona i dodanie dowolnej krawędzi do $G$ powoduje powstanie cyklu Hamiltona\footnote{dodajemy tak długo jak się da}. Czyli graf $G$ nie jest grafem pełnym bo graf pełny zawiera cykl Hamiltona.\\
+W $G$ istnieją wierzchołki $u$ i $v$ takie że $uv\not\in E(G)$\\
+Z maksymalności $G$ wynika żę $u$ i $v$ są połączone drogą Hamiltona \footnote{bo $G+uv$ ma cykl Hamiltona to $G=(G+uv)-uv$ ma drogę Hamiltona} $u = v_0,v_1,\dots, v_n = v$ - droga\\
+Zdefiniujmy dwa zbiory:
+	\begin{enumerate}
+		\item $T := \{ v_i: \quad v_iv\in E(G)\}$
+		\item $S := \{ v_i: \quad uv_{i+1} \in E(G)\}$
+	\end{enumerate}
+%TODO Dodać rysunek
+\begin{math}
+|S| = \deg u \geqslant \frac{|G|}{2}\\
+|T| = \deg v \geqslant \frac{|G|}{2}\\
+v \not\in S \cup T \Rightarrow |S \cup T| \leqslant |G| -1\\
+|G|-1 \geqslant |S \cup T| = \underbrace{\underbrace{|S|}_{\geqslant\frac{|G|}{2}} + \underbrace{|T|}_{\geqslant\frac{|G|}{2}}}_{\geqslant |G|} - |S \cap T| \Rightarrow |S\cap T| \geqslant 1 \Rightarrow S \cap T \neq \emptyset \\
+\exists v_i ~:~ v_i \in S \cap T 
+\end{math}
+Sprzeczność istnieje cykl Hamiltona $v_1\dots v_iv_n\dots v_{i+1}v_1$
+\end{proof}
+\end{tw}
+
+\subsection{Problem Komiwojażera}
+Dane: Sieć $S = (G, w)\quad w~:~E(G)\to [0, \infty)$\\
+Szukane: cykl Hamiltona o najmniejszej sumie wag krawędzi
+\begin{wniosek}
+Problem istnienia cyklu Hamiltona sprowadza się do problemu Komiwojażera\\
+Dane: Czy $G$ ma cykl Hamiltona?
+Rozwiązanie: Definiujemy $G' = K_{|G|}$\\
+$w(e) = \left\lbrace
+	\begin{array}{l l}
+		1 & e\in E(G)\\
+		2 & e\not\in E(G)
+	\end{array}\right.
+$
+$G$ ma cykl Hamiltona $\Leftrightarrow$ istnieje rozwiązanie problemu komiwojażera dla $G'$ w wadze równej $|G|$
+\end{wniosek}
 \end{document}
