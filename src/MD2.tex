@@ -9,30 +9,36 @@
 
 \usepackage{amsthm}
 \usepackage{amsfonts}
-\usepackage{amsmath} %pakiet potrzebny do \eqref
-\usepackage{amssymb} %pakiet potrzebny do \blacksquare i \mathbb{•}
+\usepackage{amsmath} 		%pakiet potrzebny do \eqref
+\usepackage{amssymb} 		%pakiet potrzebny do \blacksquare i \mathbb{}
 
-\usepackage{graphicx}
+\usepackage[pdfauthor={Janisz},%
+	pdftitle={MD2},%
+	pagebackref=true,%
+	pdftex]{hyperref}
+\hypersetup{colorlinks=true}%kolorowe linki
+
+\usepackage{graphicx}		%do obrazków
 \usepackage[polish]{babel}	%babel musi być po ams inaczej generuje błedy https://groups.google.com/d/msg/pl.comp.dtp.tex.gust/AfdVxQVu_DI/Fego6Pxz3HMJ
+
+%-----------------------DEFINICJE------------------------------------------
 \newtheorem{lemat}{Lemat}
 \newtheorem{tw}{Twierdzenie}
 \newtheorem{przyklad}{Przykład}
 \theoremstyle{definition}
 \newtheorem{df}{Definicja}
 \newtheorem{wniosek}{Wniosek}
+\newtheorem{problem}{Problem}
+\newtheorem{algo}{Algorytm}
+\newcommand{\egz}{\marginpar{\color{red} EGZAMIN}} %gneruje ostrzeżenia?
+%-------------------------------------------------------------------------
 
-\usepackage[pdfauthor={Janisz},%
-pdftitle={MD2},%
-pagebackref=true,%
-pdftex]{hyperref}
-\hypersetup{colorlinks=false}
-
-
-\pagestyle{plain}
-\begin{document}
 \title{ Matematyka Dyskretna 2}
 \author{Tomasz Janiszewski}
 \date{\today}
+
+\begin{document}
+
 \maketitle
 
 \tableofcontents
@@ -97,7 +103,7 @@ Niech $e = xy$ będzie mostem w $G$. $G-e$ ma dokładnie dwie składowe $G_x, G_
 \end{proof}
 \end{lemat}
 
-\subsubsection{Algorytm Fleury'ego}
+\begin{algo}[Algorytm Fleury'ego]
 \begin{enumerate}
 \item Wybieram wierzchołek startowy $v_0, ~ w = v_0$
 \item Załóżmy, że skonstruowaliśmy już ścieżkę $w=v_0e_1v_1 \dots e_iv_i$ wybieram krawędź $e_{i+1}$ taką że
@@ -108,7 +114,8 @@ Niech $e = xy$ będzie mostem w $G$. $G-e$ ma dokładnie dwie składowe $G_x, G_
 	\end{enumerate}
 \item STOP kiedy krok 2 nie może się wykonać
 %TODO Dodać przykład
-	\end{enumerate}
+\end{enumerate}
+\end{algo}
 
 \begin{tw}
 Jeżeli $G$ ma obwód Eulera to algorytm Fleury'ego znajdzie taki obwód
@@ -187,7 +194,7 @@ $\omega(G-S) \leqslant \omega(C-S)$
 %TODO Dodać przykłady (szczególnie graf Petersena)
 \end{tw}
 
-\begin{tw}[\href{http://pl.wikipedia.org/wiki/Gabriel_Andrew_Dirac}{Diraca} (1952)]
+\begin{tw}[\href{http://pl.wikipedia.org/wiki/Gabriel_Andrew_Dirac}{Diraca} (1952)]\egz
 Jeżeli $G$ jest grafem takim że $G\geqslant 3, ~~ \delta(G)\geqslant \frac{|G|}{2}$ to $G$ ma cykl Hamiltona
 \begin{proof}\emph{nie wprost}\\
 Niech $G$ będzie kontrprzykładem do twierdzenia o maksymalnym zbiorze krawędzi, czyli grafem takim że ma co najmniej 3 wierzchołki $|G|\geqslant 3, ~~ \delta(G) \geqslant \frac{|G|}{2}$ nie ma cyklu Hamiltona i dodanie dowolnej krawędzi do $G$ powoduje powstanie cyklu Hamiltona\footnote{dodajemy tak długo jak się da}. Czyli graf $G$ nie jest grafem pełnym bo graf pełny zawiera cykl Hamiltona.\\
@@ -225,4 +232,95 @@ $w(e) = \left\lbrace
 $
 $G$ ma cykl Hamiltona $\Leftrightarrow$ istnieje rozwiązanie problemu komiwojażera dla $G'$ w wadze równej $|G|$
 \end{wniosek}
+
+%---------------%
+%2. Wyklad		%
+%	18.10.2011	%
+%---------------%
+\begin{algo}[Procedura $DFS$ - przeszukiwania drzewa w głąb]~\\
+$T$ - drzewo skierowane od wierzchołka $v$\\
+$v$ - wierzchołek
+\begin{enumerate}
+	\item Wypisz v
+	\item Jeżeli $v1, \dots, v_p$ są nnastępnikami $v$ w $T$ to wykonaj $DFS(T, v_i)$ dla $i = 1, \dots, p$
+\end{enumerate}
+%TODO Dodać przykład
+\end{algo}
+
+\begin{algo}[APK (Aproksymacyjne rozwiązanie problemu komiwojażera)]~\\\label{algo:apk}
+Algorytm znajduje przybliżone rozwiązanie problemu komiwojażera
+\begin{enumerate}
+	\item Wybierz wierzchołek startowy
+	\item Skonstruuj minimalne drzewo rozpinające $T$ grafu $G$
+	\item Wykonaj procedurę $DFS(T, v)$
+\end{enumerate}
+%TODO Dodać przykład
+\end{algo}
+
+\begin{tw}\egz
+Algorytm \hyperref[algo:apk]{APK} konstruuje cykl Hamiltona o co najwyżej 2-krotnie większej sumie wag krawędzi w porównaniu z optymalnym o ile jest spełniony warunek trójkąta\footnote{$\forall x,y,z \quad w(x,y) + w(y,z) \geqslant w(x,z)$}
+\begin{proof}~\\
+$\begin{array}{l l}
+T & \text{drzewo rozpinające skonstruowane w algorytmie}\\
+H^* & \text{optymalny cykl Hamiltona}\\
+H & \text{cykl Hamiltona skonstruowany przez APK}
+\end{array}$\\
+Weźmy $e\in E(H^*)$. $H^*\smallsetminus e$ to ścieżka rozpinająca, czyli drzewo rozpinające.
+$$ \frac 12w(H) \leqslant w(T) \leqslant w(H^*\smallsetminus e) \leqslant w(H^*) $$
+Procedura $DFS$ przechodzi przez każdą krawędź dwa razy. Gdy komiwojażer przechodził po $T$ to w sumie przeszedł by drogę długości $2w(T)$. Pomijając odwiedzone wcześniej wierzchołki nie zwiększymy sumy wag krawędzi dzięki nierówności trójkąta.
+$$ w(H) \leqslant 2w(T) \leqslant 2w(H^*) $$
+\end{proof}
+\end{tw}
+
+\subsection{Grafy dwudzielne}
+\begin{df}
+Graf $G=G(V, E)$ nazywamy grafem dwudzielnym, jeśli istnieją zbiory $X, Y$ takie że $X \cup Y = V$, $X \cap Y = \emptyset$ i $\forall e\in E ~~ |e\cap X| = 1$
+\end{df}
+
+\begin{df}
+Graf dwudzielny $G$ nazywamy dwudzielnym pełnym jeżeli $\forall x\in X ~\forall y\in Y ~~ xy\in E$. Jeżeli $|Y| = m$, $|X| = n$ to $G$ nazywamy $K_{n,m}$
+\end{df}
+
+\begin{tw}\egz
+Graf $G$ jest dwudzielny $\Leftrightarrow$ $G$ nie zawiera nieparzystych cykli\footnote{cykli o nieparzystej długości}
+\begin{proof}$\Rightarrow$
+$G$ jest dwudzielny. Przypuśćmy że w $G$ jest cykl nieparzystej długości $C ~:~ x_1,x_2,\dots, x_{2k+1}$. Bez straty ogólności zakładamy, że $x_1 \in X \Rightarrow x_2\in Y \Rightarrow x_2\in X \Rightarrow \dots \Rightarrow X_{2k}\in Y \Rightarrow x_{2k+1}\in X$. \\
+$x_1,x_{2k+1}\in X$ sprzeczność z dwudzielnością $G$ 
+\end{proof}
+\begin{proof}$\Leftarrow$\\
+$G$ nie zawiera nieparzystych cykli. Pokażemy że jest dwudzielny\\
+$d(x,y)$ -- długość krawędzi najkrótszej $x-y$-drogi $(x,y \in V(G))$\\
+Bez utraty ogólności możemy przyjąć, że $G$ jest spójny, gdyż składowe można rozpatrzyć osobno.\\
+Niech
+\begin{tabular}{l l}
+	$u$ & będzie dowolnym wierzchołkiem\\
+	$X$ & $\{ v\in V ~:~ ^2|d(u,v)\}$\\
+	$Y$ & $\{ v\in V ~:~ ^2\nmid d(u,v)\}$
+\end{tabular}
+czyli $X\cap Y = \emptyset ~\wedge~ X\cup Y = V(G)$\\
+Pokażemy, że $\forall e\in E(G) ~~ |e\cap X| = 1$\\
+Przypuśćmy, że istnieje krawędź $e = xy$ taka  że $e\subset X$\footnote{analogicznie gdy $e\subset Y$}\\
+$P$ -- najkrótsza $x-u$ droga\\
+$Q$ -- najkrótsza $y-u$ droga\\
+%TODO Dodać obrazek
+Niech $v$ będzie wspólnym wierzchołkiem $P$ i $Q$ najbliżej $x$. Odcinki dróg $P$ i $Q$ z $u$ do $v$ są takiej samej długości bo w przeciwnym przypadku jedna z nich nie była by najkrótsza. Drogi $P$ i $Q$ mają tę samą parzystość, zatem odcinki dróg $P_x, Q_y$ z $v$ do $x$ i $y$ odpowiednio mają tę samą parzystość i długość. \\Zatem cykl $xP_xvQ_yyx$ jest nieparzystej długości.
+\end{proof}
+\end{tw}
+
+\begin{df}
+Skojarzenie to graf którego każda składowa ma jedną krawędź.
+\end{df}
+\begin{df}
+$G$-graf, $M$-podgraf $G$ nazywamy skojarzeniem doskonałym jeżeli jest skojarzeniem i $V(M)=V(G)$\\
+Takie skojarzenie nie zawsze istnieje
+\end{df}
+\begin{df}
+Skojarzenie $M$ nazywamy 
+\begin{enumerate}
+	\item maksymalnym -- jeśli nie jest zawarte w skojarzeniu o większej liczbie krawędzi
+	\item maksymalnej liczności -- jeśli nie istnieje skojarzenie o większej liczbie krawędzi
+\end{enumerate}
+\end{df}
+
 \end{document}
+
