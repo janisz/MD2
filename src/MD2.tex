@@ -28,6 +28,7 @@
 \theoremstyle{definition}
 \newtheorem{df}{Definicja}
 \newtheorem{wniosek}{Wniosek}
+\newtheorem{uwaga}{Uwaga}
 \newtheorem{problem}{Problem}
 \newtheorem{algo}{Algorytm}
 \newcommand{\egz}{\marginpar{\color{red} EGZAMIN}} %gneruje ostrzeżenia?
@@ -54,8 +55,8 @@
 
 \pagebreak
 %---------------%
-%1. Wyklad		%
-%	4.10.2011	%
+%1. Wyklad      %
+%	4.10.2011   %
 %---------------%
 \section{Ścieżka i cykl \href{http://pl.wikipedia.org/wiki/Leonhard_Euler}{Eulera}}
 %TODO Dodać opis problemu
@@ -135,8 +136,8 @@ Przypuśćmy, że nie jest. $G_n = G-E(w_n)$ ma niepusty zbiór krawędzi.
 \end{tw}
 
 %---------------%
-%2. Wyklad		%
-%	11.10.2011	%
+%2. Wyklad      %
+%	11.10.2011  %
 %---------------%
 \subsection{Wniosek z twierdzenia Eulera}
 \begin{tw}
@@ -158,14 +159,14 @@ $\Leftarrow$
 \subsection{Problem chińskiego listonosza}
 Listonosz musi dostarczyć listy do adresatów, czyli przejść przez każdą ulicę w mieście. Jak ma przejść aby pokonać najkrótszą trasę?\\
 %TODO Dodać rysunek
-Dane: Spójny multigraf $G$, funkcja wag krawędzi (długość ulic) $w : E(G) \to [0,\infty)$\\
-Problem: Znaleźć trasę, czyli ciąg wierzchołków taki że:
+\subsubsection{Dane} Spójny multigraf $G$, funkcja wag krawędzi (długość ulic) $w : E(G) \to [0,\infty)$\\
+\subsubsection{Problem} Znaleźć trasę, czyli ciąg wierzchołków taki że:
 \begin{enumerate}
 	\item każda krawędź występuje w ciągu
 	\item $\forall i \quad e_i = v_{i-1}v_i$
 	\item $\sum\limits_{i=1}^{p} w(e_i)$ była minimalna 
 \end{enumerate}
-Szkic rozwiązania
+\subsubsection{Rozwiązanie}
 \begin{enumerate}
 	\item Połączy krawędziami wierzchołki nieparzystych stopni po dwa tak aby suma wag u nowych krawędzi była jak najmniejsza\footnote{algorytm jest skomplikowany}
 	\item Znajdźmy obwód Eulera w nowym multigrafie
@@ -218,8 +219,8 @@ Sprzeczność istnieje cykl Hamiltona $v_1\dots v_iv_n\dots v_{i+1}v_1$
 \end{tw}
 
 \subsection{Problem Komiwojażera}
-Dane: Sieć $S = (G, w)\quad w~:~E(G)\to [0, \infty)$\\
-Szukane: cykl Hamiltona o najmniejszej sumie wag krawędzi
+\subsubsection{Dane} Sieć $S = (G, w)\quad w~:~E(G)\to [0, \infty)$\\
+\subsubsection{Szukane} cykl Hamiltona o najmniejszej sumie wag krawędzi
 \begin{wniosek}
 Problem istnienia cyklu Hamiltona sprowadza się do problemu Komiwojażera\\
 Dane: Czy $G$ ma cykl Hamiltona?
@@ -234,8 +235,8 @@ $G$ ma cykl Hamiltona $\Leftrightarrow$ istnieje rozwiązanie problemu komiwoja�
 \end{wniosek}
 
 %---------------%
-%2. Wyklad		%
-%	18.10.2011	%
+%2. Wyklad      %
+%	18.10.2011  %
 %---------------%
 \begin{algo}[Procedura $DFS$ - przeszukiwania drzewa w głąb]~\\
 $T$ - drzewo skierowane od wierzchołka $v$\\
@@ -322,5 +323,127 @@ Skojarzenie $M$ nazywamy
 \end{enumerate}
 \end{df}
 
-\end{document}
+%---------------%
+%3. Wyklad      %
+%	25.10.2011  %
+%---------------%
+\section{Kolorowanie krawędzi}
+\begin{df}
+k-pokolorowaniem krawędzi grafu $G$ nazywamy funkcję $f~:~ E(G) \to G$ gdzie $|G| = k$
+\end{df}
 
+\begin{df}
+k-pokolorowanie nazwiemy dobrym, jeśli żadne dwie krawędzie o wspólnym końcu nie mają tego samego koloru.
+\begin{wniosek}
+Dobre k-pokolorowanie krawędzie grafu $G$ definiuje podział zbioru $E(G)$ na zbiory $E_1,\dots,E_k$ takie że $G$ indukowany przez zbiór krawędzie $G[E_i]$ jest skojarzeniem.
+\end{wniosek}
+\begin{uwaga}
+Dowolny graf $G$ ma dobre $e(G)$-pokolorowanie krawędzi
+\end{uwaga}
+\begin{uwaga}
+Jeśli $G$ ma dobre k-pokolorowanie i $l\geqslant k$ to $G$ ma dobre l-pokolorowanie
+\end{uwaga}
+\end{df}
+
+\begin{df}
+Indeksem chromatycznym grafu $G$ nazywamy najmniejsze $k\in\mathbb{N}$ takie że istnieje dobre k-pokolorowanie krawędzi $G$ i oznaczamy $\chi'(G)$
+%TODO Dodać przykłady
+\begin{uwaga}
+$\chi'(G)$ jest co najmniej $\geqslant \Delta(G)$
+\end{uwaga}
+\end{df}
+
+\subsection{Problem planu zajęć}
+\subsubsection{Dane}
+\begin{tabular}{l l l}
+	n & -- grup studenckich & $X_1,X_2,\dots,X_n$\\
+	m & -- nauczycieli & $Y_1,Y_2,\dots,Y_m$\\
+	$a_{ij}$ & -- liczba godzin które nauczyciel $Y_i$ ma przeprowadzić grupie $X_i$ & \\
+\end{tabular}
+
+\emph{Ułożyć plan zajęć tak żeby ostatnia godzin kończyła się najwcześniej}
+\subsubsection{Założenia}
+\begin{enumerate}
+	\item Nie ograniczona liczba sal
+	\item Żaden nauczyciel nie prowadzi dwóch zajęć jednocześnie
+	\item żadna grupa nie ma dwóch zajęć jednocześnie
+\end{enumerate}
+\subsubsection{Rozwiązanie}
+Tworzymy multigraf o zbiorze wierzchołków $X_1,X_2,\dots,X_n, Y_1,Y_2,\dots,Y_m$ wierzchołki $X_jY_i$ są połączone krawędziami $a_{ij}$\\
+Dobre pokolorowanie krawędzi grafu $G$ definiuje plan zajęć.\\
+Jeśli krawędź $X_jY_i$ jest koloru $c\in \{1,\dots ,k\}$ to $Y_i$ na godzinie numer $c$ ma zajęcia z $x_j$\\
+\begin{przyklad}~\\
+$
+\begin{array}{c c c c c c}
+		& Y_1 & Y_2 & Y_3 & Y_4 & Y_5 \\
+	X_1 & 2 & 0 & 1 & 1 & 0\\ 
+	X_2 & 0 & 1 & 0 & 1 & 0\\
+	X_3 & 0 & 1 & 1 & 1 & 0\\
+	X_4 & 0 & 0 & 0 & 1 & 1\\
+\end{array}
+$%TODO Dodać graf
+~~$
+\begin{array}{ccccc}
+	  & X_1 & X_2 & X_3 & X_4\\
+	1 & Y_1 & Y_2 & Y_4 & Y_5\\ 
+	2 & Y_1 & Y_4 & Y_2 &  - \\
+	3 & Y_3 &  -  &  -  & Y_4\\
+	4 & Y_4 &  -  & Y_3 &  - \\
+\end{array}
+$
+\end{przyklad}
+
+\begin{lemat}
+Niech $G$ będzie grafem spójnym, który nie jest nieparzystym cyklem. Wtedy $G$ ma 2-pokolorowanie krawędzi, takie że każdy wierzchołek stopnia $\geqslant 2$ jest końcem krawędzi w obydwu kolorach.
+\begin{proof}
+\begin{proof}[Przypadek 1]$G$ ma obwód Eulera\\
+\begin{enumerate}
+	\item Jest cyklem oczywiście parzystej długości, kolorujemy krawędzie cyklu na zmianę.
+	\item $G$ nie jest cyklem zatem $G$ ma wiezchołek $v_0$ taki że $\deg v_0 \geqslant 4$\label{enum:1}
+\end{enumerate}
+\emph{Rozważmy obwód Eulera o początku i końcu w $v_0$, ($v_0e_1v_1\dots v_m$)}\\
+Niech $\begin{array}{l l}
+  E_1 & = \{e_i : 2\nmid i\}\\
+  E_0 &= \{e_i : 2\mid i\}
+\end{array}$\\
+Wchodząc do wierzchołka $v_p$ krawędzią z $E_i$ wychodzimy krawędzią z $E_{1-i} \quad i\in\{0,1\}$
+\begin{uwaga}
+Przez $v_0$ też tak przechodzimy
+\end{uwaga}
+\end{proof}
+
+\begin{proof}[Przypadek 2] $G$ nie ma obwodu Eulera\\
+$N$ -- zbiór wierzchołków nieparzystego stopnia\\
+$\overline{G} = G + \{v\} + \{vx : x\in N\}$\footnote{łączymy go ze wszystkimi wierzchołkami nieparzystego stopnia z $G$}\\
+Teraz w $\overline{G}
+\begin{array}{l c l}
+	2\mid_{\deg_Gx} & \text{dla} & x\in N\\
+	2\mid_{\deg_Gx} & \text{dla} & x\notin N\\
+	2\mid_{\deg_Gv} & \text{bo}  & 2\mid_{|N|} \text{ (zgodnie z lematem o uściskach dłoni)}
+\end{array}$\\
+$\overline{G}$ ma obwód Eulera. Idąc po tym obwodzie kolorujemy krawędzie na zmianę tak jak w przypadku \ref{enum:1}. Usuwamy krawędzie $xv$ dla $x\in N$. \emph{Wierchołek $u\in V(G)\smallsetminus N$ w $G$ ma krawędzie każdego koloru}
+Obwód Eulera przechodzi przez $u$ dwa razy, zatem ma po dwie krawędzie w każdym kolorze w $\overline{G}$. Czyli przynajmniej po jednej krawędzi w każdym kolorze w $G$.
+\end{proof}
+\end{proof}
+\end{lemat}
+
+\begin{lemat}
+k-pokolorowanie jest dobre $\Leftrightarrow ~ \forall c\in V(G) \quad l_c(v)\footnote{\text{liczba kolorów użytych do pokolorowanie krawędzi incydentnych z }v} = \deg_Gv$
+\end{lemat}
+\begin{df}
+k-pokolorowanie $\overline{c}$ krawędzi $G$ jest lepsze niż k-pokolorowanie $c$ krawędzi $G$ jeśli
+$\sum\limits_{v\in V(G)}l_{\overline{c}}(v) > \sum\limits_{v\in V(G)}l_c $
+\end{df}
+\begin{df}
+k-pokolorowanie krawędzi $G$ jest optymalne jeśli nie istnieje od niego lepsze.
+\end{df}
+
+%TODO Znaleźć barkujący wykład
+
+\section{Kolorowanie wierzchołków}
+%---------------%
+%4. Wyklad      %
+%	22.11.2011  %
+%---------------%
+
+\end{document}
