@@ -243,7 +243,7 @@ $T$ - drzewo skierowane od wierzchołka $v$\\
 $v$ - wierzchołek
 \begin{enumerate}
 	\item Wypisz v
-	\item Jeżeli $v1, \dots, v_p$ są nnastępnikami $v$ w $T$ to wykonaj $DFS(T, v_i)$ dla $i = 1, \dots, p$
+	\item Jeżeli $v1, \dots, v_p$ są następnikami $v$ w $T$ to wykonaj $DFS(T, v_i)$ dla $i = 1, \dots, p$
 \end{enumerate}
 %TODO Dodać przykład
 \end{algo}
@@ -444,6 +444,122 @@ k-pokolorowanie krawędzi $G$ jest optymalne jeśli nie istnieje od niego lepsze
 %---------------%
 %4. Wyklad      %
 %	22.11.2011  %
+%---------------%
+\begin{df}
+k-pokolorowaniem wierzchołków grafu $G$ nazywamy funkcję $c:~V(G)\to C$, gdzie $|C|=k$
+\end{df}
+
+\begin{df}
+k-pokolorowanie nazywamy dobrym (właściwy, legalnym) jeżeli każde dwa sąsiednie wierzchołki mają inne kolory
+$$ \forall x,y \in V \quad xy\in E(G) \Rightarrow c(x) \neq c(y) $$
+\end{df}
+
+\begin{df}
+Podzbiór $U\subset V(G)$ nazywamy niezależnym jeżeli $\forall x,y \in U \quad xy\not\in E(G)$
+\end{df}
+
+\begin{df}
+Liczba chromatyczna grafu $G$ jest to najmniejsze k, takie że istnieje dobre k-pokolorowanie.\\
+$\begin{matrix}
+\chi(C_{2n}) = 2 & \chi(C_{2n+1} & \chi(K_n) = n & \chi(K_{n,m}) = 2 
+\chi(G) = 1 \Leftrightarrow e(G) = 0 & \chi(G) = 2 \Leftrightarrow G\text{ jest grafem dwudzielnym}
+\end{matrix}$
+\end{df}
+
+\begin{df}
+Graf $G$ jest krytyczny jeśli $\chi(G) > \chi(H)$ dla każdego istotnego podgrafu $H$ grafu $G$
+\end{df}
+
+\begin{uwaga}
+Podgraf istotny nie jest całym grafem
+\end{uwaga}
+
+\begin{df}
+Graf $G$ jest  k-krytyczny gdy jest krytyczny i $\chi(G) = k$
+
+\begin{przyklad}
+$G$ jest 3-krytyczny $\Leftrightarrow ~G$ jest nieparzystym cyklem 
+\end{przyklad}
+\begin{przyklad}
+$K_n$ jest $n$ krytyczny
+\end{przyklad}
+
+\begin{lemat}
+Jeżeli $\chi(G)=k$ to $G$ zawiera podgraf k-krytyczny
+\begin{proof}
+Jeśli $G$ jest krytyczny to OK. W przeciwnym razie istnieje wierzchołek lub krawędź, których usunięcie nie sprawi zmniejszenia liczby chromatycznej. Usuwamy wierzchołki i krawędzie o tej własności. dopóki się da. W wyniku tej operacji otrzymujemy podgraf k-krytyczny.
+\end{proof}
+\end{lemat}
+\end{df}
+
+\begin{tw}
+Jeżeli graf $G$ jest k-krytyczny to $\delta(G) \geqslant k-1$
+\begin{proof}
+Przypuśćmy że tak nie jest\\
+Przypuśćmy, że $G$ jest k-krytyczny i $\delta (G) < k-1$. Czyli $\exists v\in V(G) ~~ \deg_GV \leqslant k-2$ i krytyczności $\chi(G\smallsetminus v)\leqslant k-1$\\
+Niech $c$ będzie $k-1$ pokolorowaniem $G\smallsetminus v$. Rozszerzamy je na wierzchołek $v$ przypisując najmniejszy kolor $\{c(u) : u\in N(v) \}$.\\
+Ponieważ $\{c(u) : u\in N(v) \} \leqslant \deg_GV \leqslant k-2$ to przypisujemy wierzchołkowi $v$ kolor najwyżej $k-1$ otrzymujemy pokolorowanie $G$ na $k-1$ kolorów wbrew $\chi(G)=k$
+\end{proof}
+
+\begin{wniosek}
+Jeśli $G$ jest k-krytyczne to zawiera co najmniej $k$ wierzchołków stopnia co najmniej $k-1$
+\end{wniosek}
+\begin{proof}
+Niech $v$ będzie wierzchołkiem takim że $\deg_GV = \delta \delta(G)$. Z twierdzenia $\delta(G) \geqslant k-1$ zatem $|\mathbf{N}[v]| \geqslant k$ i $\forall u\in\mathbf{N}[v] ~~ \deg_Gu\geqslant k-1$ \footnote{sąsiedztwo domknięte $\mathbf{N} = N(v) \cup \{v\}$ }
+\end{proof}
+
+\begin{wniosek}
+$\chi(G) \leqslant \Delta(G)+1$ dla dowolnego grafu
+\begin{proof}
+Weźmy graf i pokolorujmy jego wierzchołki po koli jak najmniejszym kolorem. Każdy wierzchołek mam $\Delta(G)$ zabronionych kolorów więc robimy kolorów o $1$ więcej.
+\end{proof}
+\end{wniosek}
+\end{tw}
+
+\begin{tw}[ \href{http://en.wikipedia.org/wiki/R._Leonard_Brooks}{Brooks'a}]
+Jeżeli graf $G$ jest spójny i różny od $K_n$ i $C_{2n+1}$ dla każdego $n$ to $$\chi(G) \leqslant \Delta(G)$$
+\begin{uwaga}
+Liczby $\chi(G)$ i $\Delta(G)$ mogą różnić się dowolnie np. $\chi(K_{n,n}) = 2,~~ \Delta(K_{n,n}) = n$
+\end{uwaga}
+\begin{uwaga}
+$\chi(G)\geqslant\omega(G)$\footnote{$\omega(G)$ = rozmiar największej kliki (podzbiór wierzchołków grafu pełnego)}
+\end{uwaga}
+\end{tw}
+
+\begin{tw}[Descartes-Mycielski]
+Dla dowolnej liczny naturalnej $k$ istnieje graf $G_k$ taki że $\chi(G_k)= k$ i $G_k$ nie zawiera trójkąta
+\begin{proof}
+Niech $G_k = (V_k, E_k)$ gdzie $V_k = \{v_1,\dots ,v_k\}$ będzie grafem bez trójkątów takim że $\chi(G_k) = k$\\
+Definiujemy $G_{k+1} : V_{k+1} = \{v_1,\dots ,v_k, u_1,\dots, u_k, v\}$\\
+$E(G_{k+1}) = E(G_k) \cup \{v_iu_j: ~ v_iv_j\in E(G_k)\} \cup \{u_iv : ~ i=\{1, \dots, n\}\}$
+$G_k$ nie ma trójkątów więc dowodzimy indukcyjnie po $k$. Zakładamy, że $G_{k-1}$ nie ma trójkątów. Przypuśćmy, że $\Delta\{x,y,z\}$\\
+$|\{x,y,z\} \cap \{u_1,\dots, u_n\}| \leqslant 1$ czyli $v\not\in \{x,y,z\}$ z założenia indukcyjnego $\{x,y,z\} \not\subset \{v_1,\dots, v_n\}$\\
+Pozostaje jedyna możliwość $\begin{matrix}x\in & \{u_1,\dots,u_n\} \\ y,z\in & \{v_1,\dots,v_n\}\end{matrix}$. Przyjmujemy, że $\begin{matrix}x = u_i \\ y = v_j \\ z = v_k\end{matrix}$\\
+$u_i,v_j,v_k$ tworzą trójkąt wbrew założeniu indukcyjnemu. Sprzeczność.\\
+\emph{Teraz pokażemy, że $\chi(G_k) = k$\\}
+\textbf{Założenie indukcyjne:} $\chi(G_{k-1} = k-1$\\
+\textbf{Teza:} $\chi(G_k) = k$\\
+Rozważmy graf $G_k~~ V(G)=\{v_1,\dots ,v_k, u_1,\dots, u_k, v\}$. Załóżmy, że $G_k[\{v_1,\dots,v_n\}]$ jest izomorficzny $G_{k-1}$. Z założenia indukcyjnego istnieje (k-1)-pokolorowanie $G_k[\{v_1,\dots,v_n\}]$ nazwijmy je $C^\#$\\
+Definiujemy k-pokolorowanie $G_k$\\
+$C(x) = \left\{\begin{matrix}
+C^\# & \text{jeśli } x\in\{v_1,\dots,v_n\}\\
+C(v_i) & \text{jeśli } x=u_i\\
+k & \text{jeśli } x=v
+\end{matrix}\right.$\\
+Pokazaliśmy, że $\chi(G_k) \leqslant k$. Przypuśćmy, że istnieje (k-1)-pokolorowanie grafu $G_K{k+1}$, nazwijmy je $\xi$. Zauważmy że żaden z wierzchołków $u_1,\dots,u_n$ nie jest pokolorowany kolorem $\xi(v)$.\\
+Definiujemy nowe pokolorowanie grafu indukowanego $V$ czyli $G_k[\{v_1,\dots,v_n\} \cong G_{k-1}\quad \phi(v_i) = 
+\left\{\begin{matrix}
+	\xi(v_i) & \text{jeśli } \xi(v_i) \neq \xi(v)\\
+	\xi(u_i) & \text{jeśli } \xi(v_i) = \xi(v)
+\end{matrix}\right.$
+Pokolorowanie $\xi$ jest dobrym (k-2)-pokolorowaniem wbrew założeniu indukcyjnemu. Sprzeczność
+%TODO Dodać rysunki
+\end{proof}
+\end{tw}
+
+%---------------%
+%5. Wyklad      %
+%	06.12.2011  %
 %---------------%
 
 \end{document}
