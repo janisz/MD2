@@ -528,7 +528,7 @@ $\chi(G)\geqslant\omega(G)$\footnote{$\omega(G)$ = rozmiar największej kliki (p
 
 \begin{tw}[Descartes-Mycielski]
 Dla dowolnej liczny naturalnej $k$ istnieje graf $G_k$ taki że $\chi(G_k)= k$ i $G_k$ nie zawiera trójkąta
-\begin{proof}
+\begin{proof}Nie wprost\\
 Niech $G_k = (V_k, E_k)$ gdzie $V_k = \{v_1,\dots ,v_k\}$ będzie grafem bez trójkątów takim że $\chi(G_k) = k$\\
 Definiujemy $G_{k+1} : V_{k+1} = \{v_1,\dots ,v_k, u_1,\dots, u_k, v\}$\\
 $E(G_{k+1}) = E(G_k) \cup \{v_iu_j: ~ v_iv_j\in E(G_k)\} \cup \{u_iv : ~ i=\{1, \dots, n\}\}$
@@ -561,5 +561,48 @@ Pokolorowanie $\xi$ jest dobrym (k-2)-pokolorowaniem wbrew założeniu indukcyjn
 %5. Wyklad      %
 %	06.12.2011  %
 %---------------%
+
+\begin{problem}
+Fabryka produkuje $n$ substancji chemicznych $v_1m\dots,v_n$. Niektóre nie powinny być przechowywane w tych samych magazynach. Ile potrzebujemy najmniej magazynów, aby każda substancja była w jakimś magazynie ale z żadną substancją z którą nie powinna być?\\
+Rozwiązaniem jest liczba chromatyczna następującego grafu:
+$\begin{array}{l l}
+V = \{v_1,\dots,v_n\} \\ 
+E =  \{v_iv_j : ~ \text{substancje } v_iv_j \text{ nie powinny być razem w magazynie}\}
+\end{array}$
+\end{problem}
+
+\section{(Multi)Grafy planarne (płaskie)}
+\begin{df}
+Grafem planarnym (płaskim) nazywamy graf który można narysować na płaszczyźnie tak, aby krawędzie przecinały się jedynie w wierzchołkach.
+\end{df}
+%TODO Dodać przykłady
+
+\begin{tw}
+Graf można narysować na płaszczyźnie $\Leftrightarrow$ można go narysować na sferze
+%TODO Dodać dowód
+\end{tw}
+
+\begin{df}
+Reprezentacją płaską multigrafu planarnego nazywamy rysunek grafu\\
+Reprezentacja multigrafu planarnego dzieli płaszczyznę na obszary nazywane regionami
+%TODO Dodać przykład
+\end{df}
+
+\begin{df}
+Mówimy że region $f$ jest incydentny z krawędzią $e$, jeżeli $e$ leży w całości na brzegu $f$
+\end{df}
+
+\begin{uwaga}
+Jeżeli krawędź jest mostem to jest incydentna z jednym regionem, w przeciwnym przypadku z dwoma regionami
+\end{uwaga}
+
+\begin{df}[Graf dualny]~\\
+\begin{itemize}
+	\item Wierzchołkom w $G*$ odpowiadają regiony czyli $V(G*) = F(G)$.
+	\item $f*g*$ jest krawędzią w $G*$ jeśli regiony $f$ i $g$ mają wspólną krawędź na brzegu
+	\item $f*g*$ łączymy tyloma krawędziami ile $f$ i $g$ mają wspólnych w $G$
+\end{itemize}
+\end{df}
+
 
 \end{document}
