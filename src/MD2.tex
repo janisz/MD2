@@ -604,5 +604,115 @@ Jeżeli krawędź jest mostem to jest incydentna z jednym regionem, w przeciwnym
 \end{itemize}
 \end{df}
 
+%TODO Chyba czegoś tu brakuje
+
+%---------------%
+%6. Wyklad      %
+%   13.12.2011  %
+%---------------%
+
+\begin{df}
+$G$ -- reprezentacja płaska grafu\\
+Definiujemy graf dualny $G*$:
+\begin{itemize}
+	\item $V(G*) = F(G)$
+	\item para $f*,g*$ jest krawędzią w $G*$ o krotności $p$ jeśli brzegi $f,g$ mają wspólnych $p$ krawędzi
+\end{itemize}
+\end{df}
+
+\subsection{Własności grafów dualnych}
+\begin{itemize}
+	\item Dwie różne reprezentacje płaskie tego samego grafu mogą mieć nieizomorficzne grafy dualne
+	\item Jeśli $G$ jest reprezentacją płaską grafu planarnego $G*$ to też jest płaski
+	\item $|G*| = \Phi(G)$
+	\item $e(G*) = e(G)$
+	\item $\forall f\in F(G) ~~ \deg_{G*}f* = \deg_Gf$
+\end{itemize}
+
+\begin{tw}
+Niech $G$ będzie reprezentacją płaską. Wtedy $$ \sum\limits_{f\in F(G)} \deg_Gf = 2e(G) $$
+\begin{proof}
+$ \sum\limits_{f\in F(G)} \deg_Gf = \sum\limits_{f\in F(G)} \deg_{G*}f^* = \sum\limits_{f^*\in V(G^*)} \deg_{G*}f* = 2e(G^*) = 2e(G)$
+\end{proof}
+\end{tw}
+
+\begin{tw}[Eulera 1750]
+Jeśli $G^*$ jest reprezentacją płaską grafu spójnego $G$ to $|G| - e(G) + \Phi(G) = 2$\marginpar{\tiny{Wzór Eulera}}
+\begin{proof}
+Indukcja po $\Phi(G)$\\
+$\Phi(G) = 1$ w $G$ nie ma cyklu i jest spójny (jest drzewem) więc $e(G) = |G|-1$\\
+$\Phi(G) = k > 1$ zakładamy że wzór Eulera jest spełniony dla wszystkich $G'$ takich że $\Phi(G') \leqslant k-1$\\
+W $G$ powstaje cykl (np. krawędzie tworzące brzeg pewnej łamanej). $e$ to krawędź w $C$ która nie jest mostem więc leży na brzegu dokładnie dwóch ścian $f_1, f_2$
+%TODO Dodć obrazek
+Usuwamy $e$ z $G$. Dostajemy reprezentację płaską $H$ jakiegoś grafu $H$.\\
+$|H| = |G| \quad \Phi(H) = \Phi(G) -1 \quad \Phi(H) \leqslant k-1$ czyli wzór Eulera jest spełniony dla $H$\\
+$|G| - e(G) + \Phi(G) = |H| - e(H) - 1 + \Phi(H) + 1 = 2$
+\end{proof}
+
+\begin{wniosek}
+Graf $G$ -- planarny graf prosty. Wtedy $e(G) \leqslant 3|G| -6$
+\end{wniosek}
+\begin{wniosek}\label{wniosek:2}
+Graf $G$ -- planarny graf prosty. Wtedy $\delta(G) \leqslant 5$
+\end{wniosek}
+\end{tw}
+
+\begin{df}
+Pod-podziałem krawędzi $xy$ w grafie $G$ nazywamy operację polegającą ma zastępowaniu krawędzi $xy$ dwoma krawędziami $xz$ i $zy$ przy czym $z$ jest wierzchołkiem nie należącym do $V(G)$
+\end{df}
+
+\begin{df}
+Graf $H$ nazywamy pod-podziałem grafu $G$ jeśli $H$ można otrzymać z $G$ przez ciąg podziałów krawędzi
+\end{df}
+
+
+\begin{tw}[Kuratowski 1930]
+$G$ jest planarny $\Leftrightarrow~G$ nie zawiera pod-podziałów grafu $K_5$ lub $K_{3,3}$
+
+\begin{proof}$\Rightarrow$\\
+Jeżeli $G$ zawiera pod-podział $K_5$ lub $K_{3,3}$ to $G$ nie jest planarny to pod-podziałby $K_5$ lub $K_{3,3}$ nie są planarne
+\end{proof}
+%TODO Dodać obrazek
+\begin{proof}$\Leftarrow$\\
+...
+Wierzchołek minimalnego stopnia umieszczamy na stosie i usuwamy z grafu, aż usuniemy wszystkie wierzchołki. Zdejmujemy wierzchołki ze stosu i kolorujemy najmniejszym kolorem niepowodującym
+konfliktów. Z wniosku \ref{wniosek:2} w momencie usuwania wierzchołka to ten wierzchołek ma stopień $\leqslant 5$. Zatem gdy chcemy pokolorować wierzchołek to pokolorowanych jest $\leqslant 5$ jego sąsiadów.
+\end{proof}
+\end{tw}
+
+\begin{tw}
+Jeżeli $G$ jest grafem planarnym to $\chi(G) \leqslant 5$
+
+\begin{proof}
+Przypuśćmy że istnieje kontrprzykład, czyli graf planarny $G$ taki że $\chi(G) > 5$\\
+Wyrzucamy wierzchołki z $G$ aż otrzymamy graf $H$ o liczbie chromatycznej $6$. Oczywiście $H$ jest planarny. Niech $F$ będzie 6-krytycznym planarnym podgrafem grafu $H$. Z wniosku \ref{wniosek:2} $\delta(F) \leqslant 5$. $F$ jest 6-krytyczny więc $\delta(F) \geqslant 6-1 = 5$ stąd $\delta(F) = 5$. Niech $X$ będzie wierzchołkiem z $F$ stopnia 5. $F$ jest 6-krytyczny, więc $\chi(F-x) = 5$. Kolorujemy $F-x$ kolorami $c_1,\dots,c_5$. Wszyscy sąsiedzi $x$ mają różne kolory bo w przeciwnym przypadku można by pokolorować $x$ jednym z kolorów $c_1,\dots,c_5$ i wtedy $F$ byłby pokolorowany na 5 kolorów. Sprzeczność.\\
+Możemy tak nazwać kolory że $v_1$ ma kolor $c_1$, $v_2$ --- $c_2$, \dots $x$ ma kolor $c_5$. Dla $i,h\in \{1,\dots, 5\}, j\neq i$Niech $F_{ij}$ będzie podgrafem indukowanym przez wierzchołki o kolorach $c_i$ oraz $c_j$. 
+%TODO Dodać rysunek
+$v_i$ i $v_j$ należą do tej samej składowej grafu $F_{ij}$ bo w przeciwnym przypadku można by w składowej $F_{ij}$ zawierającej $v_i$ zamienić kolory $c_ic_j$, otrzymalibyśmy dobre pokolorowanie $F-x$ na 5 kolorów takie że sąsiedzi $x$ są w 4 kolorach więc można by pokolorować $H$ na 5 kolorów. Sprzeczność\\
+%TODO Dodać rysunki
+Istnieje droga $P_{2,4}$  łącząca $v_2$ z $v_4$ w $F_{24}$ (wierzchołki tej drogi mają kolory $c_2$  i $c_4$) Analogicznie istnieje droga $P_{13}$ z $v_1$ do $v_3$ w $F_{13}$ złożona z wierzchołków w kolorach $c_1$i $c_3$. Niech $c = xv_2P_{24}v_4x ~~ v_1$ %Tu nie mogę odczytać
+Droga $P_{13}$ może przeciąć cykl $C$ w wierzchołku, bo $G$ jest planarny. To jest niemożliwe, bo z jednej strony ten wierzchołek należy do $c$ czyli ma kolor $c_2$ lub $c_4$ a z drugiej strony należy do $P_{13}$ czyli ma kolor $c_1$ lub $c_3$. Sprzeczność.
+\end{proof}
+\end{tw}
+
+\subsection{Skojarzenia grafów}
+
+\begin{df}
+Podgraf $M$ grafu $G$ nazywamy skojarzeniem jeśli każda składowa $M$ jest izomorficzna z $K_2$
+\end{df}
+
+\begin{df}
+Zbiór wierzchołków $C\subset V(G)$ nazywamy wierzchołkowym połączeniem $G$ jeśli każda krawędź $G$ jest incydentna z wierzchołkiem z $C$.
+\end{df}
+
+\begin{df}
+Drogę zaczynającą się z wierzchołka $x\in A$ który nie należy do żadnej krawędzi z$M$ składający się na przemian z krawędzi należących do $E-E(M)$ i $E(M)$ nazywamy drogą naprzemienną względem $M$
+%TODO Dodać rysunek
+\end{df}
+
+\begin{df}
+Drogę naprzemienną względem $M$ zawierającą się w wierzchołku z $A$ nazywamy nienasyconą względem $M$ jeśli jej koniec należy do $B$ i nie należy do żadnej krawędzi z $M$.
+%TODO Dodać rysunek
+\end{df}
 
 \end{document}
