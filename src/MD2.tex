@@ -763,7 +763,7 @@ c(G) \text{ -- liczność majmniejszego pokrycia}
 \end{proof}
 \end{tw}
 
-\begin{tw}[\href{http://pl.wikipedia.org/wiki/Philip_Hall}{Halla} 1935]
+\begin{tw}[\href{http://pl.wikipedia.org/wiki/Philip_Hall}{Halla} (Wersja grafowa)]\label{tw:halla}
 Każdą pannę można wydać za mąż za kawalera, którego lubi $\Leftrightarrow$ każdy podzbiór $S$ panien lubi co najmniej (w sumie) $|S|$ kawalerów.
 \begin{proof}
 Zaręczamy pary zachłannie, każda kolejna pana zaręcza się z pierwszym wolnym kawalerem, którego lubi o ile taki istnieje. W przeciwnym przypadku urządza przyjęcie zapraszając wszystkich których lubi oni zapraszają swoje narzeczone a one kawalerów których lubią i tak dalej. To znaczy każdy kawaler przychodzi na przyjęcie z narzeczoną (o ile taką ma), a każda panna ze wszystkimi kawalerami których lubi.\\
@@ -776,6 +776,94 @@ Kawaler bez pary tańczy z panną która go zaprosiła, jej narzeczony z panną 
 $G=(X,Y,Z)$ graf dwudzielny. \\Jeśli $\forall S\subset X\quad |N(S)| \geqslant |S|$ to w $G$ istnieje skojarzenie liczności $|X|~$ \footnote{$N(S) = \{y\in Y: ~ \exists x\in X ~~ yx \in E\}$}
 \end{tw}
 
+%---------------%
+%8. Wyklad      %
+%   20.12.2011  %
+%---------------%
+\subsection{Systemy reprezentantów}
+\begin{df}
+Niech $(A_1, \dots , A_m)$ - ciąg podzbiorów zbioru $X$\\
+Ciąg $(a_1, \dots , a_n)$ nazywamy systemem różnych reprezentantów ciągu $(A_1,\dots, A_m)$ jeśli 
+\begin{enumerate}
+	\item $\forall i\in\{i,\dots , n\} ~ a_i \in A_i$
+	\item $\forall i,j\in\{1, \dots ,n\} ~ i\neq j ~\Rightarrow ~a_i \neq a_j$
+\end{enumerate}
+\end{df}
+
+\begin{tw}[\href{http://pl.wikipedia.org/wiki/Philip_Hall}{Halla} (Wersja transwersalowa\footnote{transwersala -- system reprezentantów})]~\\
+Ciąg zbiorów $(A_1, dots , A_m)$  ma system różnych reprezentantów $\Leftrightarrow ~ \forall y\in\{1,\dots ,n\} ~~ |y| \leqslant |\bigcup\limits_{i\in y} A_i|$
+\begin{proof}~\\
+Definiujemy graf dwudzielny $G=(X,Y,E) \quad x = \{A_1, \dots , A_m\} ~ Y = \bigcup\limits_{i=1}^n A_i $ i powiemy że $A_iy_i\in E \Leftrightarrow y_i \in A_i$\\
+Skojarzenie $A_1y_1 \dots A_ny_n$ definiuje system różnych reprezentantów z twierdzenia \ref{tw:halla} wynika że istnieje skojarzenie $\Leftrightarrow ~ S\subset \{A_1, \dots , A_m\} \quad |N(S)| \geqslant |S| = y$
+\end{proof}
+\end{tw}
+
+\begin{problem}
+\begin{center}
+Czy można przydzielić pracę pracownikom, tak aby każda była wykonana przez pracownika który ją umie?\\
+\end{center}
+Zakładamy że każda praca jest wykonana przez jednego pracownika i każdy pracownik wykonuje jedną pracę
+Problem sprowadza się do znalezienia systemu różnych reprezentantów.
+\end{problem}
+
+\subsection{Maksymalny przepływ w sieci}
+\begin{df}
+Parę $S = (G,C)$ gdzie $G=(V,E)$ jest grafem zorientowanym, a $c: ~E\to \mathbb{R}$ (nazywamy funkcją przepustowości) nazywamy siecią.
+\end{df}
+
+\begin{df}
+Niech $s,t$ będą wyróżnionymi wierzchołkami sieci $S$. Przepływem z $s$ do $t$ nazywamy dowolną funkcję $f: ~ E-to \mathbb{R_+} \cup \{0\}$ taką że:
+\begin{enumerate}
+	\item $\forall e\in E \quad f(e) \leqslant c(e)$
+	\item $D_iY_e(v) := \sum\limits_{u: vu\in E} f(vu) - \sum\limits_{u: uv\in E}f(uv) = 0 $ dla każdego $v\in V \smallsetminus \{s, t\}$ 
+\end{enumerate}
+Wielkość $w(f) = D_iY_f(s)$ nazywamy wartością przepływu
+\end{df}
+
+\begin{df}
+Przekrojem $P(A)$ odpowiadającym niepustemu zbiorowi $A\subset V$ nazywamy zbiór krawędzi $P(A) = E \cap A \times (V \smallsetminus A)$ (jeden koniec w $A$ a drugi nie)
+\end{df}
+
+\begin{df}
+Dla dowolnego przepływu $f$ w sieci $S$ definiujemy przepływ przez przekrój $P(A)$ jako $f(A, V\smallsetminus A) = \sum\limits_{e\in P(A)}f(e)$
+\end{df}
+
+%TODO Przykłąd
+
+\begin{lemat}
+Jeśli $s\in A$, $t\not\in A$ to dla dowolnego przepływu z $s$ do $t$ 
+$$w(f) = f(A,V\smallsetminus A) - f(V\smallsetminus A, A)$$
+\begin{proof}
+$$w(f) = Div_f(s) = Div_f(s) + 0 = 
+\sum\limits_{v\in A} Div_f(v) 
+= \sum\limits_{v\in A}\left(\sum\limits_{u: uv\in E}f(uv) - \sum\limits_{u: vu\in E}f(vu)\right)
+= f(A, V\smallsetminus A ) - f(V\smallsetminus A, A)$$
+\end{proof}
+\end{lemat}
+
+\begin{df}
+Przepustowością przekroju $P(a)$ nazywamy liczbę $c(A, V\smallsetminus A) = \sum\limits_{e\inP(A)} c(e)$
+\end{df}
+
+\begin{df}
+Minimalny przekrój między $s$ i $t$ to jest przekrój $P(A)$ taki że $s\in A$, $t\not\inA$ o minimalnej przepustowości
+\end{df}
+
+\begin{tw}[\href{http://pl.wikipedia.org/wiki/Metoda_Forda-Fulkersona}{Forda-Fulkersona}]
+Wartość każdego przepływu z $s$ do $t$ nie przekracza przepustowości minimalnego przekroju między $s$ i $t$, przy czym istnieje przepływ osiągający tą wartość
+\begin{proof}
+Niech $P(A)$ będzie przekrojem minimalnym 
+$$w)f_ = f(A, V\smallsetminus A) - f(V\smallsetminus A, A) \leqslant f(A, V\smallsetminus A) = \sum\limits_{e\in P(A)} f(e) \leqslant \sum\limits_{e\in P(A)} c(e) = c(A, V\smallsetminus A) $$
+\end{proof}
+\end{tw}
+
+\begin{df}
+Krawędź $e$ sieci $S$ jest użyteczna z $u$ do $v$ jeśli $e=uv$ i $f(e) < c(e)$ lub jeśli $e=vu$ i $f(e) > 0$ (jeśli można zwiększyć przepływ)
+\end{df}
+
+\begin{df} 
+Ścieżką rozszerzającą z $s$ do $t$ dla danego przepływu $f$ to ciąg $v_0e_1v_1\dots e_lv_l$ taki że $v_0 = s, ~ v_l=t$ oraz $\forall i\in \{1,\dots , l\}$ krawędź $e_i$ jest użyteczna z $v_{i-1}$ do $v_i$ względem przepływu $f$.
+\end{df}
 
 
 
