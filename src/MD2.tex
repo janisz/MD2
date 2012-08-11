@@ -875,7 +875,7 @@ Krawędź $e$ sieci $S$ jest użyteczna z $u$ do $v$ jeśli $e=uv$ i $f(e) < c(e
 \begin{tw}
 Następujące warunki są równoważne:
 \begin{enumerate}
-	\item Przepływ $f$ z $s$ do $t$ jest maksymalny
+	\item Przepływ $f$ z $s$ do $t$ jest maksymalny\label{warunek:1}
 	\item Nie istnieje ścieżka rozszerzająca z $s$ do $t$ względem $f$
 	\item $w(f) = c(A, V \smallsetminus A)$ dla pewnego $A\subset V\smallsetminus \{t\}~~s\in A$
 \end{enumerate}
@@ -899,6 +899,53 @@ Następujące warunki są równoważne:
 
 %TODO Dodać przykład i algorytm
 
+%---------------%
+%9. Wyklad      %
+%   10.01.2012  %
+%---------------%
+
+\subsection{Matroidy}
+\begin{df}
+Matroidem nazywamy parę $M = (E,C)$ gdzie $E$ jest zbiorem skończonym a $C\subset Z^E$
+\begin{enumerate}
+	\item $\emptyset\in C$ i $\forall A,B\subset E~~ A\subset B \wedge B\in C \Rightarrow A\in C$
+	\item $\forall A,B\in C ~~ |B| = |A| +1 \Rightarrow \exists e\in B\smallsetminus A ~~ A\cup \{e\} \in C$
+\end{enumerate}
+Zbiory należące do $C$ nazywamy zbiorami niezależnymi
+\end{df}
+\begin{przyklad}
+$E$ -- zbiór skończony, $C = Z^E$
+\end{przyklad}
+\begin{przyklad}
+Matroid podziałowy\\
+$E$ -- zbiór skończony, $D_1, \dots , D_k$ -- podział $E$\\
+$C = \{A\subset E: ~~ |A\cap D_i| \leqslant 1\}$
+\end{przyklad}
+
+
+%TODO Dodać więcej przykładów
+
+\begin{tw}
+Niech $C\subset Z^E$ spełnia warunek \ref{warunek:1} wtedy para $(E,C)$ jest matroidem $\Leftrightarrow$ dla dowolnego $D\subset E$ każde dwa maksymalne w $D$ zbiory niezależne są tej samej liczności
+\begin{proof}
+$\Rightarrow$ Przypuśćmy że istnieją zbiory niezależne $A,B$ maksymalne w pewnym $D\subset E ~~ |B| > |A|$, z
+\begin{enumerate}
+	\item $\Rightarrow ~~ \exists B'\subset B$ takie  że $B'\in C ~~ |B'| = |A| + 1$
+	\item $\Rightarrow ~~ \exists e\in B'\smallsetminus A \subset D \quad A\cup \{e\} \in C$
+\end{enumerate}
+czyli nie jest zbiorem niezależnym maksymalnym w $D$\\
+$\Leftarrow$ Chcemy pokazać że prawdą jest $2$\\
+Rozważmy $A,B\in C ~~ |B| = |A|+1 ~~ |D+A\cup B$. Przypuśćmy że $2$ nie zachodzi, czyli $\forall e\in B'\smallsetminus A~~ A\cup\{e\}\in C \Leftrightarrow ~A$ jest maksymalnym zbiorem niezależnym. $B$ jest zawarty w pewnym zbiorze niezależnym, maksymalnym w $D$. $B'| \geqslant |B| > |A|$ sprzeczność z $3$
+\end{proof}
+%TODO Uporządkować ten dowód do czego się ona tak naprawdę odnosi
+\end{tw}
+
+\begin{wniosek}
+Wszystkie zbiory niezależne, maksymalne w $E$ matroidu $(E,C)$ mają taką samą liczność
+\end{wniosek}
+
+\begin{tw}[\href{http://www.wmie.uz.zgora.pl/~edrgas/pliki/material\%20dla\%20zao\%20matroidy.pdf}{Rado-Edmondsa 1971}]
+\end{tw}
 
 
 \end{document}
