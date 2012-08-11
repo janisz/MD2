@@ -842,11 +842,11 @@ $$w(f) = Div_f(s) = Div_f(s) + 0 =
 \end{lemat}
 
 \begin{df}
-Przepustowością przekroju $P(a)$ nazywamy liczbę $c(A, V\smallsetminus A) = \sum\limits_{e\inP(A)} c(e)$
+Przepustowością przekroju $P(a)$ nazywamy liczbę $c(A, V \smallsetminus A) = \sum\limits_{e\in P(A)} c(e)$
 \end{df}
 
 \begin{df}
-Minimalny przekrój między $s$ i $t$ to jest przekrój $P(A)$ taki że $s\in A$, $t\not\inA$ o minimalnej przepustowości
+Minimalny przekrój między $s$ i $t$ to jest przekrój $P(A)$ taki że $s\in A$, $t\not\in A$ o minimalnej przepustowości
 \end{df}
 
 \begin{tw}[\href{http://pl.wikipedia.org/wiki/Metoda_Forda-Fulkersona}{Forda-Fulkersona}]
@@ -864,6 +864,40 @@ Krawędź $e$ sieci $S$ jest użyteczna z $u$ do $v$ jeśli $e=uv$ i $f(e) < c(e
 \begin{df} 
 Ścieżką rozszerzającą z $s$ do $t$ dla danego przepływu $f$ to ciąg $v_0e_1v_1\dots e_lv_l$ taki że $v_0 = s, ~ v_l=t$ oraz $\forall i\in \{1,\dots , l\}$ krawędź $e_i$ jest użyteczna z $v_{i-1}$ do $v_i$ względem przepływu $f$.
 \end{df}
+
+%---------------%
+%9. Wyklad      %
+%   03.01.2012  %
+%---------------%
+
+%TODO Przykład
+
+\begin{tw}
+Następujące warunki są równoważne:
+\begin{enumerate}
+	\item Przepływ $f$ z $s$ do $t$ jest maksymalny
+	\item Nie istnieje ścieżka rozszerzająca z $s$ do $t$ względem $f$
+	\item $w(f) = c(A, V \smallsetminus A)$ dla pewnego $A\subset V\smallsetminus \{t\}~~s\in A$
+\end{enumerate}
+\begin{proof}
+\begin{itemize}
+	\item $1\Rightarrow 2$\\
+	Zachodzi ponieważ gdyby istniała ścieżka rozszerzająca względem $f$ to można by było znaleźć większy przepływ, a ten jest już maksymalny
+	\item $2\Rightarrow 3$\\
+	Zakładamy że nie istnieje ścieżka rozszerzająca z $s$ do $t$ względem $f$. Niech $A$ będzie zbiorem wierzchołków $V$ takim że istnieje ścieżka rozszerzająca z $s$ do $v$ względem $v$. Zauważmy że:
+	\begin{enumerate}
+		\item $t\not\in A$
+		\item $e = vu ~~ v\in A \wedge u\not\in A$ to $f(e) = c(e)$ bo gdyby $f(e) <c(e)$ to istniałaby ścieżka rozszerzająca z $s$ do $u$ i wtedy $u\in A$ wbrew założeniu
+		\item $e = uv ~~ v\in A \wedge u\not\in A$ to $f(e) = 0$ bo gdyby $f(e) > 0 $ to $u\in A$ wbrew założeniu
+	\end{enumerate}
+	$$w(f) = \sum\limits_{e\in P(A, V\smallsetminus A)}f(e) - \sum\limits_{e\in P(V \smallsetminus A, A)}f(e) = \sum\limits_{e\in P(A, V\smallsetminus A)}c(e) - 0 = c(A, V\smallsetminus A)$$
+	\item $3 \Rightarrow 1$\\
+	$f$ jest maksymalny bo wartość przepływu nie może przekroczyć żadnej wartości przekroju
+\end{itemize}
+\end{proof}
+\end{tw}
+
+%TODO Dodać przykład i algorytm
 
 
 
