@@ -715,4 +715,68 @@ Drogę naprzemienną względem $M$ zawierającą się w wierzchołku z $A$ nazyw
 %TODO Dodać rysunek
 \end{df}
 
+%---------------%
+%7. Wyklad      %
+%   15.12.2011  %
+%---------------%
+
+\begin{df}
+$G$ - graf, $C\subset V(G)$ jest wierzchołkowym pokryciem grafu $G$ jeżeli każda krawędź ma przynajmniej jeden koniec w $C$
+\end{df}
+
+\begin{tw}[Koniga]
+Rozmiar największego skojarzenia w grafie dwudzielnym jest równy liczbie wierzchołków w najmniejszym wierzchołkowym pokryciu.
+\begin{proof}
+Niech $\begin{matrix}
+m(G) \text{ -- rozmiar najliczniejszego skojarzenia}\\
+c(G) \text{ -- liczność majmniejszego pokrycia}
+\end{matrix}$
+\begin{enumerate}
+	\item Dowodzimy że $m(G) \leqslant c(G)$\\
+	Niech $M$ -- skojarzenie rozmiaru $m(G)$. Aby pokryć wszystkie krawędzie z $M$ (bo żaden wierzchołek nie należy do więcej niż jednej krawędzi).
+	\item $c(G) \leqslant m(G)$\\
+	Niech $M$ będzie skojarzeniem liczności $m(G)$ skonstruujmy pokrycie $C$ liczności $c(G)$. $G = (A,B,E)$ jest grafem dwudzielnym, $V(G) = A \cup B$. \\
+	Z krawędzi $e\in E(M)$ do $C$ wybierzmy jej koniec należący do $B$, jeśli jest on końcem naprzemiennej ścieżki względem $M$, w przeciwnym przypadku do $C$ wybieramy koniec należący do $A$\\
+	$|C| = |M| = m(G)$
+	\item Pokażemy że $C$ jest pokryciem \\
+	Niech $ab$ będzie dowolną krawędzią w $G$, $a\in A,~ b\in B$ 
+	\begin{tabular}{l}
+	
+
+		jeśli $ab\in E(M)$ to $a\in C$ lub $b\in C$	\\
+		jeśli $ab\not\in E(M)$: Zauważmy że $\exists e\in E(M) ~~ a\in e$ lub $b\in e$.
+	\end{tabular}\\
+	 Gdyby było inaczej to krawędź $ab$ można by dodać do $M$ otrzymując skojarzenie liczności $m(G)+1$. Sprzeczność \\
+	 Jeżeli $\exists e\in E(M) ~~ b\in e $ to $b\in C$ ponieważ $e\in R(N)$ i $b$ jest końcem naprzemiennej ścieżki konkretnie ścieżki $ab$.\\
+	 Jeżeli $b\not\in V(M)~ \cap ~\exists e\in E(M) \quad a\in e$ to niech $e = ab'$\\
+	 Jeżeli $a\in C$ to ok $\rightarrow$ krawędź $ab$ ma koniec w $C$\\
+	 Jeżeli $a\in C$ to  $b'\in C$ i $b'$ jest końcem naprzemiennej ścieżki $P$
+	 \begin{itemize}
+	 	\item Jeśli $P$ przechodzi przez $b$ to $b$ jest końcem pewnej naprzemiennej ścieżki (konkretnie początkowego docinka P -- czyli ta ścieżka jest krótsza od $P$) to znaczy że $b\in C$
+	 	\item Jeśli $P$ nie przechodzi przez $b$ to ścieżka $P_{ab}$ jest ścieżką naprzemienną kończącą się w $b$, a $b$ nie należy do żadnej krawędzi z $M$
+	 	%TODO Dodać obrazek
+	 \end{itemize}
+	 $b$ jest końcem nienasyconej ścieżki naprzemiennej $P'=ab$. Niech $E(M') = E(M) \div E(P')$
+	 %TODO Dodać ilustrację
+	 $|M'| = |M| + 1$ sprzeczność z definicją $M$ jako najliczniejszego skojarzenia
+\end{enumerate}
+\end{proof}
+\end{tw}
+
+\begin{tw}[\href{http://pl.wikipedia.org/wiki/Philip_Hall}{Halla} 1935]
+Każdą pannę można wydać za mąż za kawalera, którego lubi $\Leftrightarrow$ każdy podzbiór $S$ panien lubi co najmniej (w sumie) $|S|$ kawalerów.
+\begin{proof}
+Zaręczamy pary zachłannie, każda kolejna pana zaręcza się z pierwszym wolnym kawalerem, którego lubi o ile taki istnieje. W przeciwnym przypadku urządza przyjęcie zapraszając wszystkich których lubi oni zapraszają swoje narzeczone a one kawalerów których lubią i tak dalej. To znaczy każdy kawaler przychodzi na przyjęcie z narzeczoną (o ile taką ma), a każda panna ze wszystkimi kawalerami których lubi.\\
+Przypuśćmy że na przyjęciu nie ma wolnego kawalera. Niech $S$ oznacza zbiór panien na przyjęciu. Kawalerów na przyjęciu czyli wszystkich lubianych przez panny z $S$ jest $S-1$ -- narzeczeni wszystkich panien oprócz gospodyni. Sprzeczność z założeniem.\\
+Kawaler bez pary tańczy z panną która go zaprosiła, jej narzeczony z panną która go zaprosiła i tak dalej, aż pewien kawaler tańczy z gospodynią. Tańczące pary zrywają swoje zaręczyny o zaręczają się z partnerem od tańca. W ten sposób kolejne panny możemy nareszcie zaręczyć. Gdy już nie ma wolnych panien urządzamy ślub. 
+\end{proof}
+\end{tw}
+
+\begin{tw}[\href{http://pl.wikipedia.org/wiki/Philip_Hall}{Halla} 1935]
+$G=(X,Y,Z)$ graf dwudzielny. \\Jeśli $\forall S\subset X\quad |N(S)| \geqslant |S|$ to w $G$ istnieje skojarzenie liczności $|X|~$ \footnote{$N(S) = \{y\in Y: ~ \exists x\in X ~~ yx \in E\}$}
+\end{tw}
+
+
+
+
 \end{document}
